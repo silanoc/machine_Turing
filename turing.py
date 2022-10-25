@@ -26,7 +26,8 @@ class Machineturing:
         return self.bandepapier[self.positioncurceur]
 
     def ecriture_case(self,valeur: str) -> None:
-        "Ecrit le contenu de valeur dans la case de la bandepapier"
+        "Ecrit le valeur (si existe dans alphabet) dans la case de la bandepapier"
+        assert valeur in self.alphabet
         self.bandepapier[self.positioncurceur] = valeur
 
     def droite(self)-> None:
@@ -34,14 +35,12 @@ class Machineturing:
         self.positioncurceur += 1
         if self.positioncurceur == len(self.bandepapier):
             self.bandepapier.append(self.ajout)
-       
 
     def gauche(self)-> None:
         "déplace le curseur d'une case vers la gauche"
         self.positioncurceur -= 1
         if self.positioncurceur < 0:
-            self.bandepapier.insert(0,self.ajout)
-               
+            self.bandepapier.insert(0, self.ajout)
 
     def change_etat(self, valeur1: str)-> None:
         "change l'état de la machine"
@@ -94,8 +93,8 @@ def creer_une_machine_via_yaml(fichier):
     return Machineturing(etats, alphabet, etatinit, delta, etatsfin, bande, debut, tabledeverite, ajout)
 
 if __name__ == "__main__":
-    #machine = creer_une_machine_via_yaml("doublerlesun.yaml")
-    machine = creer_une_machine_via_yaml("ajouter1.yaml")
+    machine = creer_une_machine_via_yaml("doublerlesun.yaml")
+    #machine = creer_une_machine_via_yaml("ajouter1.yaml")
     print("___affichage_initialisation___")
     print(machine.listedetat)
     print(machine.bandepapier)
