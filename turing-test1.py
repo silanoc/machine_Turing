@@ -1,7 +1,6 @@
 # test machine turing
 
 class machineturing:
-    pass
     def __init__(self,Q,gamma,q0,delta,F,bande,debut):
         self.listedetat=Q
         self.alphabet=gamma
@@ -76,7 +75,7 @@ def doublerlesUn():
     delta=''
     etatsfin=''
     #bande=[1,1,1,1,1,1,1,1,1,1]
-    bande=[1,1,1,1,0,0,0,0,0,0]
+    bande=[1,1,1,0,0,0,0,0,0,0]
     debut=0
     return machineturing(etats,alphabet,etatinit,delta,etatsfin,bande,debut)
    

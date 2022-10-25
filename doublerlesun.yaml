@@ -1,0 +1,20 @@
+etats: ['e1', 'e2', 'e3', 'e4', 'e5'] #état initial est e1
+alphabet: ['0', '1'] #‘0’ étant le « symbole blanc »
+etatinit: 'e1'
+delta: ''
+etatsfin: ''
+bande: ['1', '1', '1']
+debut: 0
+ajout: '0' #pour ajouter une case à la bande infini
+
+tabledeverite:
+  ('e1','0'): "self.change_etat('arret')"
+  ('e1','1'): "self.ecriture_case(0),self.droite(),self.change_etat('e2')"
+  ('e2','1'): "self.ecriture_case(1),self.droite(),self.change_etat('e2')"
+  ('e2','0'): "self.ecriture_case(0),self.droite(),self.change_etat('e3')"
+  ('e3','1'): "self.ecriture_case(1),self.droite(),self.change_etat('e3')"
+  ('e3','0'): "self.ecriture_case(1),self.gauche(),self.change_etat('e4')"
+  ('e4','1'): "self.ecriture_case(1),self.gauche(),self.change_etat('e4')"
+  ('e4','0'): "self.ecriture_case(0),self.gauche(),self.change_etat('e5')"
+  ('e5','1'): "self.ecriture_case(1),self.gauche(),self.change_etat('e5')"
+  ('e5','0'): "self.ecriture_case(1),self.droite(),self.change_etat('e1')"
