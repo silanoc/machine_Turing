@@ -34,13 +34,13 @@ class Machineturing:
         self.bandepapier[self.positioncurceur] = valeur
 
     def droite(self)-> None:
-        "déplace le curseur d'une case vers la droite"
+        "déplace le curseur d'une case vers la droite en ajoutant une case si nécessaire"
         self.positioncurceur += 1
         if self.positioncurceur == len(self.bandepapier):
             self.bandepapier.append(self.symbole_blanc)
 
     def gauche(self)-> None:
-        "déplace le curseur d'une case vers la gauche"
+        "déplace le curseur d'une case vers la gauche en ajoutant une case si nécessaire"
         self.positioncurceur -= 1
         if self.positioncurceur < 0:
             self.bandepapier.insert(0, self.symbole_blanc)
@@ -49,17 +49,16 @@ class Machineturing:
         "change l'état de la machine"
         self.etat = valeur1
 
-    def definir_tupple_entree_transition(self)-> Tuple[str, str]:
-        "Construction du tupple état et symbole lu"
-        tupple_sortie: Tuple[str, str] = (self.etat, self.lecture_case())
-        return tupple_sortie
+    def definir_tuple_entree_transition(self)-> Tuple[str, str]:
+        "Construction du tuple état et symbole lu"
+        tuple_sortie: Tuple[str, str] = (self.etat, self.lecture_case())
+        return tuple_sortie
 
-    def fonction_de_transition(self, tupple_entree)-> None:
-        "execute les instruction de la table de transition en fonction du tupple d'entree"
+    def fonction_de_transition(self, tuple_entree)-> None:
+        "execute les instruction de la table de transition en fonction du tuple d'entree"
         try:
-            instruction_a_faire = self.tabledeverite[f"('{tupple_entree[0]}','{tupple_entree[1]}')"]
+            instruction_a_faire: list[str, str, str] = self.tabledeverite[f"('{tuple_entree[0]}','{tuple_entree[1]}')"]
             print(instruction_a_faire)
-            print(instruction_a_faire[0])
             self.ecriture_case(instruction_a_faire[0])
             if instruction_a_faire[1] == 'droite':
                 self.droite()
@@ -74,7 +73,7 @@ class Machineturing:
         """execute les instructions jusqu'à l'état de fin, arret"""
         self.etat = self.etatinitial
         while self.etat != 'arret':
-            parametre_entree = self.definir_tupple_entree_transition()
+            parametre_entree = self.definir_tuple_entree_transition()
             print(parametre_entree, self.positioncurceur)
             self.fonction_de_transition(parametre_entree)
             print(self.bandepapier)
