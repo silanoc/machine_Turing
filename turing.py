@@ -56,8 +56,19 @@ class Machineturing:
 
     def fonction_de_transition(self, tupple_entree)-> None:
         "execute les instruction de la table de transition en fonction du tupple d'entree"
-        instruction_a_faire: str = self.tabledeverite[f"('{tupple_entree[0]}','{tupple_entree[1]}')"]
-        exec(instruction_a_faire) #fonction native de python
+        try:
+            instruction_a_faire = self.tabledeverite[f"('{tupple_entree[0]}','{tupple_entree[1]}')"]
+            print(instruction_a_faire)
+            print(instruction_a_faire[0])
+            self.ecriture_case(instruction_a_faire[0])
+            if instruction_a_faire[1] == 'droite':
+                self.droite()
+            elif instruction_a_faire[1] == 'gauche':
+                self.gauche()
+            self.change_etat(instruction_a_faire[2])
+        except:
+            self.etat = 'arret'
+            print("arret")
 
     def excecuter_le_programme_de_la_machine(self) -> None:
         """execute les instructions jusqu'à l'état de fin, arret"""
@@ -117,4 +128,3 @@ if __name__ == "__main__":
     print(machine.bandepapier)
     print("___affichage_fonctionnement___")
     machine.excecuter_le_programme_de_la_machine()
-    

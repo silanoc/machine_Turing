@@ -8,11 +8,10 @@ debut: 0
 symbole_blanc: 'VIDE' #pour ajouter une case à la bande infini
 
 tabledeverite:
-  ('e1','VIDE'): "self.ecriture_case('VIDE'),self.droite(),self.change_etat('e2')"
-  ('e2','0'): "self.ecriture_case('0'),self.droite(),self.change_etat('e2')"
-  ('e2','1'): "self.ecriture_case('1'),self.droite(),self.change_etat('e2')"
-  ('e2','VIDE'): "self.ecriture_case('VIDE'),self.gauche(),self.change_etat('e3')"
-  ('e3','0'): "self.ecriture_case('1'),self.gauche(),self.change_etat('arret')"
-  ('e3','1'): "self.ecriture_case('0'),self.gauche(),self.change_etat('e3')"
-  ('e3','VIDE'): "self.ecriture_case('1'),self.gauche(),self.change_etat('arret')"
- 
+  ('e1','VIDE'): ['VIDE', 'droite', 'e2']
+  ('e2','0'): ['0', 'droite', 'e2']
+  ('e2','1'): ['1', 'droite', 'e2']
+  ('e2','VIDE'): ['VIDE', 'gauche', 'e3']
+  ('e3','0'): ['1', 'gauche', 'arret']
+  ('e3','1'): ['0', 'gauche', 'e3']
+  ('e3','VIDE'): ['1', 'gauche', 'arret']
