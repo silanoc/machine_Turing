@@ -3,9 +3,9 @@ alphabet: ['VIDE','0', '1'] #‘0’ étant le « symbole blanc »
 etatinit: 'e1'
 delta: ''
 etatsfin: ''
-bande: ['VIDE','1', '1', '1', '0']
+bande: ['VIDE','1', '1']
 debut: 0
-ajout: 'VIDE' #pour ajouter une case à la bande infini
+symbole_blanc: 'VIDE' #pour ajouter une case à la bande infini
 
 tabledeverite:
   ('e1','VIDE'): "self.ecriture_case('VIDE'),self.droite(),self.change_etat('e2')"

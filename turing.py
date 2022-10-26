@@ -5,12 +5,15 @@
 By Silanoc le 25 octobre 2022
 """
 
+from typing import Tuple
+from matplotlib.dates import TU
 import yaml
 
 class Machineturing:
     """La classe qui gére le fonctionnement d'une machine de turing"""
 
-    def __init__(self, Q, gamma, q0, delta, F, bande, debut, tabledeverite, ajout):
+    def __init__(self, Q, gamma, q0, delta, F, bande, debut, tabledeverite, symbole_blanc):
+        assert symbole_blanc in gamma
         self.listedetat: list = Q
         self.alphabet: list = gamma
         self.etatinitial: str = q0
@@ -19,7 +22,7 @@ class Machineturing:
         self.bandepapier: list = bande
         self.positioncurceur: int = debut
         self.tabledeverite: dict = tabledeverite
-        self.ajout: str = ajout
+        self.symbole_blanc: str = symbole_blanc
 
     def lecture_case(self) -> str:
         "Lit le contenu de la case sous le curseur. Retour un str"
@@ -34,27 +37,35 @@ class Machineturing:
         "déplace le curseur d'une case vers la droite"
         self.positioncurceur += 1
         if self.positioncurceur == len(self.bandepapier):
-            self.bandepapier.append(self.ajout)
+            self.bandepapier.append(self.symbole_blanc)
 
     def gauche(self)-> None:
         "déplace le curseur d'une case vers la gauche"
         self.positioncurceur -= 1
         if self.positioncurceur < 0:
-            self.bandepapier.insert(0, self.ajout)
+            self.bandepapier.insert(0, self.symbole_blanc)
 
     def change_etat(self, valeur1: str)-> None:
         "change l'état de la machine"
         self.etat = valeur1
 
+    def definir_tupple_entree_transition(self)-> Tuple[str, str]:
+        "Construction du tupple état et symbole lu"
+        tupple_sortie: Tuple[str, str] = (self.etat, self.lecture_case())
+        return tupple_sortie
+
+    def fonction_de_transition(self, tupple_entree)-> None:
+        "execute les instruction de la table de transition en fonction du tupple d'entree"
+        instruction_a_faire: str = self.tabledeverite[f"('{tupple_entree[0]}','{tupple_entree[1]}')"]
+        exec(instruction_a_faire) #fonction native de python
+
     def excecuter_le_programme_de_la_machine(self) -> None:
         """execute les instructions jusqu'à l'état de fin, arret"""
         self.etat = self.etatinitial
         while self.etat != 'arret':
-            self.symbole_lu = self.lecture_case()
-            print(self.etat, self.symbole_lu, self.positioncurceur)
-            instruction_a_faire: str = self.tabledeverite[f"('{self.etat}','{self.symbole_lu}')"]
-            exec(instruction_a_faire) #fonction native de python
-            #print(instruction_a_faire)
+            parametre_entree = self.definir_tupple_entree_transition()
+            print(parametre_entree, self.positioncurceur)
+            self.fonction_de_transition(parametre_entree)
             print(self.bandepapier)
 
 
@@ -88,13 +99,19 @@ def creer_une_machine_via_yaml(fichier):
             debut = value
         elif key == "tabledeverite":
             tabledeverite = value
-        elif key == "ajout":
-            ajout = value
-    return Machineturing(etats, alphabet, etatinit, delta, etatsfin, bande, debut, tabledeverite, ajout)
+        elif key == "symbole_blanc":
+            symbole_blanc = value
+    return Machineturing(etats, alphabet, etatinit, delta, etatsfin, bande, debut, tabledeverite, symbole_blanc)
 
 if __name__ == "__main__":
     machine = creer_une_machine_via_yaml("doublerlesun.yaml")
-    #machine = creer_une_machine_via_yaml("ajouter1.yaml")
+    print("___affichage_initialisation___")
+    print(machine.listedetat)
+    print(machine.bandepapier)
+    print("___affichage_fonctionnement___")
+    machine.excecuter_le_programme_de_la_machine()
+    print('############')
+    machine = creer_une_machine_via_yaml("ajouter1.yaml")
     print("___affichage_initialisation___")
     print(machine.listedetat)
     print(machine.bandepapier)
