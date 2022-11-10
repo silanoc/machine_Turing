@@ -6,7 +6,6 @@ By Silanoc le 25 octobre 2022
 """
 
 from typing import Tuple
-from matplotlib.dates import TU
 import yaml
 
 class Machineturing:
