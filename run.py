@@ -4,6 +4,6 @@
 """Runner du programme machine de Turing
 By silanoc le 10 novembre 2022"""
 
-import interface
+import interface.interface_console as interface_console
 
-interface.lancer_le_jeu()
+interface_console.lancer_le_jeu()
